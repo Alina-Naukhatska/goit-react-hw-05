@@ -1,6 +1,5 @@
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
-import Header from './components/Header/Header';
 import Navigation from './components/Navigation/Navigation';
 import Cast from './components/MovieCast/MovieCast';
 import Reviews from './components/MovieReviews/MovieReviews';
@@ -13,7 +12,6 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage/NotFoundPage'));
 const App = () => {
     return (
         <>
-            <Header />
             <Navigation />
             <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
