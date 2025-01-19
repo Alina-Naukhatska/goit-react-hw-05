@@ -4,6 +4,7 @@ import Header from './components/Header/Header';
 import Navigation from './components/Navigation/Navigation';
 import Cast from './components/MovieCast/MovieCast';
 import Reviews from './components/MovieReviews/MovieReviews';
+// import MovieList from './components/MovieList/MovieList';
 // import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));

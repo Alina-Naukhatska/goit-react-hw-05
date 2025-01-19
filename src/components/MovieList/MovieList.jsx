@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import styles from './MovieList.module.css';
+import s from './MovieList.module.css';
 export default function MovieList({ movies }) {
     return (
-        <ul className={styles.list}>
+        <ul className={s.list}>
             {movies.map(({ id, title }) => (
                 <li key={id}>
                     <Link to={`/movies/${id}`}>{title}</Link>
