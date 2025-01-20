@@ -1,23 +1,19 @@
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import s from './MovieList.module.css';
-export default function MovieList({ movies }) {
-    return (
-        <ul className={s.list}>
-            {movies.map(({ id, title }) => (
-                <li key={id}>
-                    <Link to={`/movies/${id}`}>{title}</Link>
-                </li>
-            ))}
-        </ul>
-    );
-}
 
-MovieList.propTypes = {
-    movies: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            title: PropTypes.string.isRequired,
-        })
-    ).isRequired,
+const MovieList = ({ movies }) => {
+  if (!Array.isArray(movies)) {
+    return <div>Invalid data</div>;
+  }
+
+  return (
+    <ul>
+      {movies.map((movie) => (
+        <li key={movie.id}>
+          <Link to={`/movies/${movie.id}`}>{movie.title}</Link> 
+        </li>
+      ))}
+    </ul>
+  );
 };
+
+export default MovieList;
