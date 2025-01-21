@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { fetchMoviesByQuery } from '../../Services/moviesAPI';
-import MovieList from '../MovieList/MovieList';
+import MovieList from '../../components/MovieList/MovieList';
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
