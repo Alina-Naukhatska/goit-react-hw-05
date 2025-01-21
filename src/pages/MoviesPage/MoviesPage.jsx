@@ -1,66 +1,47 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { fetchMoviesByQuery } from '../../Services/moviesAPI';
-import MovieList from '../../components/MovieList/MovieList';
+import MovieList from '../MovieList/MovieList';
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!query) return;
-
-    setLoading(true);
-    try {
-      const data = await fetchMoviesByQuery(query);
-      if (Array.isArray(data.results)) {
-        setMovies(data.results);
-      } else {
-        console.error('The data is not an array:', data);
-      }
-    } catch (error) {
-      console.error('Error searching for movies:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query') || '';
 
   useEffect(() => {
-    const searchMovies = async () => {
-      if (query) {
-        setLoading(true);
-        try {
-          const data = await fetchMoviesByQuery(query);
-          if (Array.isArray(data.results)) {
-            setMovies(data.results);
-          } else {
-            console.error('The data is not an array:', data);
-          }
-        } catch (error) {
-          console.error('Error searching for movies:', error);
-        } finally {
-          setLoading(false);
-        }
+    if (!query) return;
+
+    const fetchMovies = async () => {
+      try {
+        const data = await fetchMoviesByQuery(query);
+        setMovies(data.results);
+      } catch (error) {
+        console.error('Error fetching movies:', error);
       }
     };
 
-    searchMovies();
-  }, [query]); 
+    fetchMovies();
+  }, [query]);
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const searchValue = form.elements.search.value.trim();
+
+    if (searchValue) {
+      setSearchParams({ query: searchValue });
+    } else {
+      setSearchParams({});
+    }
+  };
 
   return (
     <div>
       <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search movies..."
-        />
+        <input type="text" name="search" defaultValue={query} placeholder="Search movies..." />
         <button type="submit">Search</button>
       </form>
-
-      {loading ? <div>Loading...</div> : <MovieList movies={movies} />}
+      <MovieList movies={movies} />
     </div>
   );
 };
